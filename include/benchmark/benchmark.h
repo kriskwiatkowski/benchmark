@@ -505,6 +505,8 @@ class Counter {
     kAvgIterations = 1 << 3,
     // Mark the counter as a iteration-average rate. See above.
     kAvgIterationsRate = kIsRate | kAvgIterations,
+    // Pure result, do not format in any way
+    kResultNoFormat = 1U << 4U,
 
     // In the end, invert the result. This is always done last!
     kInvert = 1 << 31
@@ -520,6 +522,7 @@ class Counter {
   double value;
   Flags flags;
   OneK oneK;
+  bool human_readable;
 
   BENCHMARK_ALWAYS_INLINE
   Counter(double v = 0., Flags f = kDefaults, OneK k = kIs1000)
