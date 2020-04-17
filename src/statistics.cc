@@ -13,15 +13,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "benchmark/benchmark.h"
+#include "statistics.h"
 
 #include <algorithm>
 #include <cmath>
 #include <numeric>
 #include <string>
 #include <vector>
+
+#include "benchmark/benchmark.h"
 #include "check.h"
-#include "statistics.h"
 
 namespace benchmark {
 
@@ -72,6 +73,13 @@ double StatisticsStdDev(const std::vector<double>& v) {
 
   const double avg_squares = SumSquares(v) * (1.0 / v.size());
   return Sqrt(v.size() / (v.size() - 1.0) * (avg_squares - Sqr(mean)));
+}
+
+double StatisticsStdDevOnAvgSquares(double avg_squares, double mean,
+                                    size_t sample_size) {
+  if (!sample_size) return mean;
+  if (sample_size == 1) return 0.0;
+  return Sqrt(sample_size / (sample_size - 1.0) * (avg_squares - Sqr(mean)));
 }
 
 std::vector<BenchmarkReporter::Run> ComputeStats(

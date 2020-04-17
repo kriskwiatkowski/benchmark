@@ -31,6 +31,8 @@ std::vector<BenchmarkReporter::Run> ComputeStats(
 double StatisticsMean(const std::vector<double>& v);
 double StatisticsMedian(const std::vector<double>& v);
 double StatisticsStdDev(const std::vector<double>& v);
+double StatisticsStdDevOnAvgSquares(double avg_squares, double mean,
+                                    size_t sample_size);
 
 }  // end namespace benchmark
 
