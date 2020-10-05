@@ -652,7 +652,9 @@ class State {
     assert(range_.size() > pos);
     return range_[pos];
   }
-
+  size_t argn() const {
+    return range_.size();
+  }
   BENCHMARK_DEPRECATED_MSG("use 'range(0)' instead")
   int64_t range_x() const { return range(0); }
 
