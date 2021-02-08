@@ -30,10 +30,10 @@ target_include_directories(benchmark PUBLIC
 
 # Link threads.
 target_link_libraries(benchmark  ${BENCHMARK_CXX_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
-find_library(LIBRT rt)
-if(LIBRT)
-  target_link_libraries(benchmark ${LIBRT})
-endif()
+#find_library(LIBRT rt)
+#if(LIBRT)
+#  target_link_libraries(benchmark ${LIBRT})
+#endif()
 
 if(CMAKE_BUILD_TYPE)
   string(TOUPPER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE_UPPER)
