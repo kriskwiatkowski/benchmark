@@ -1494,7 +1494,6 @@ class Fixture : public internal::Benchmark {
     ::benchmark::Shutdown();                                            \
     return 0;                                                           \
   }                                                                     \
-  int main(int, char**)
 
 // ------------------------------------------------------
 // Benchmark Reporters
