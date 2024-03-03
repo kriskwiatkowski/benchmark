@@ -68,7 +68,11 @@ KPERF_LIST
 static uint64_t g_counters[COUNTERS_COUNT];
 static uint64_t g_config[COUNTERS_COUNT];
 
-bool configure_macOS_rdtsc() {
+/*
+  Configure the counter. Such as clock cycles, etc.
+  Return false if it failed to configure, otherwise return true.
+ */
+static bool configure_macOS_rdtsc() {
   if (kpc_set_config(KPC_MASK, g_config)) {
     return false;
   }

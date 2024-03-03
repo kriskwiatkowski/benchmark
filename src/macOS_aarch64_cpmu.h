@@ -15,11 +15,8 @@
 
 #ifdef BENCHMARK_MACOS_AARCH64
 
-/*
-  Configure the counter. Such as clock cycles, etc.
-  Return false if it failed to configure, otherwise return true.
- */
-bool configure_macOS_rdtsc();
+namespace benchmark {
+namespace internal {
 
 /*
   Initialise and configure the rdtsc counter modules.
@@ -34,6 +31,8 @@ bool init_macOS_rdtsc();
  */
 unsigned long long int macOS_rdtsc();
 
+}  // namespace internal
+}  // namespace benchmark
 #endif  // BENCHMARK_MACOS_AARCH64
 
 #endif  // MACOS_AARCH64_CPMU_H_

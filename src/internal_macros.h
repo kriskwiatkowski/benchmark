@@ -66,6 +66,9 @@
     #if defined(TARGET_OS_IPHONE)
       #define BENCHMARK_OS_IOS 1
     #endif
+    #if defined(__aarch64__)
+      #define BENCHMARK_MACOS_AARCH64 1
+    #endif
   #endif
 #elif defined(__FreeBSD__)
   #define BENCHMARK_OS_FREEBSD 1
@@ -108,11 +111,6 @@
   #define BENCHMARK_MAYBE_UNUSED __attribute__((unused))
 #else
   #define BENCHMARK_MAYBE_UNUSED
-#endif
-
-#if defined(__APPLE__) && defined(__MACH__) && defined(__aarch64__)
-// macOS, aarch64
-  #define BENCHMARK_MACOS_AARCH64
 #endif
 
 // clang-format on

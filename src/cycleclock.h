@@ -30,11 +30,8 @@
 #include <mach/mach_time.h>
 #endif
 
-#if 0
-// This functionality is not working correctly (causes system to crash)
 #if defined(BENCHMARK_MACOS_AARCH64)
 #include "macOS_aarch64_cpmu.h"
-#endif
 #endif
 
 // For MSVC, we want to use '_asm rdtsc' when possible (since it works
@@ -60,29 +57,23 @@ extern "C" uint64_t __rdtsc();
 #endif
 
 namespace benchmark {
-// NOTE: only i386 and x86_64 have been well tested.
-// PPC, sparc, alpha, and ia64 are based on
-//    http://peter.kuscsik.com/wordpress/?p=14
-// with modifications by m3b.  See also
-//    https://setisvn.ssl.berkeley.edu/svn/lib/fftw-3.0.1/kernel/cycle.h
+namespace internal {
+// Sets up CPU cyclecount functionality.
+// Some platforms (like MacOS) need to perform initial setup to make
+// counting of CPU cycles possible.
+void InitializeCyclecount();
+}  // namespace internal
+
 namespace cycleclock {
-#if defined(__aarch64__) || (defined(__ARM_ARCH) && (__ARM_ARCH >= 6))
-inline BENCHMARK_ALWAYS_INLINE bool is_ARM_PMU_EN() {
-#if defined(__aarch64__)
-  uint64_t pmuseren;
-  asm volatile("MRS %0, pmuserenr_el0" : "=r"(pmuseren));
-  return (1 == (pmuseren & 1));
-#else
-  uint32_t pmuseren;
-  asm volatile("mrc p15, 0, %0, c9, c14, 0" : "=r"(pmuseren));
-  return (1 == (pmuseren & 1));
-#endif
-}
-#endif
+// Retruns false if library was not able to initialize CPU cyclecount
+// functionality, otherwise true.
+bool IsCycleClockEnabled();
 
 // This should return the number of cycles since power-on.  Thread-safe.
 inline BENCHMARK_ALWAYS_INLINE int64_t Now() {
-#if defined(BENCHMARK_OS_MACOSX)
+#if defined(BENCHMARK_MACOS_AARCH64)
+  return macOS_rdtsc();
+#elif defined(BENCHMARK_OS_MACOSX)
   // this goes at the top because we need ALL Macs, regardless of
   // architecture, to return the number of "mach time units" that
   // have passed since startup.  See sysinfo.cc where

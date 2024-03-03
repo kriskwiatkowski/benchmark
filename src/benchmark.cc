@@ -16,6 +16,7 @@
 
 #include "benchmark_api_internal.h"
 #include "benchmark_runner.h"
+#include "cycleclock.h"
 #include "internal_macros.h"
 
 #ifndef BENCHMARK_OS_WINDOWS
@@ -764,6 +765,7 @@ void Initialize(int* argc, char** argv, void (*HelperPrintf)()) {
   internal::HelperPrintf = HelperPrintf;
   internal::ParseCommandLineFlags(argc, argv);
   internal::LogLevel() = FLAGS_v;
+  internal::InitializeCyclecount();
 }
 
 void Shutdown() { delete internal::global_context; }
