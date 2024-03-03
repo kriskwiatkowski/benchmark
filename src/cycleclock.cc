@@ -32,7 +32,7 @@ void InitializeCyclecount() {
 namespace cycleclock {
 bool IsCycleClockEnabled() {
 #if BENCHMARK_MACOS_AARCH64
-  return ::benchmark::internal::macOS_rdtsc() != 0;
+  return ::benchmark::internal::macOS_is_PMU_ON();
 #elif defined(__aarch64__) || (defined(__ARM_ARCH) && (__ARM_ARCH >= 6))
 // Check ARM PMU.
 // NOTE: only i386 and x86_64 have been well tested.
