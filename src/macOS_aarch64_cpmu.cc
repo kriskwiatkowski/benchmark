@@ -12,6 +12,9 @@
 
 #ifdef BENCHMARK_MACOS_AARCH64
 
+namespace benchmark {
+namespace internal {
+
 #include <dlfcn.h>
 
 #define KPERF_LIST                             \
@@ -68,7 +71,11 @@ KPERF_LIST
 static uint64_t g_counters[COUNTERS_COUNT];
 static uint64_t g_config[COUNTERS_COUNT];
 
-bool configure_macOS_rdtsc() {
+/*
+  Configure the counter. Such as clock cycles, etc.
+  Return false if it failed to configure, otherwise return true.
+ */
+static bool configure_macOS_rdtsc() {
   if (kpc_set_config(KPC_MASK, g_config)) {
     return false;
   }
@@ -140,5 +147,8 @@ unsigned long long int macOS_rdtsc() {
   }
   return g_counters[0 + 2];
 }
+
+}  // namespace internal
+}  // namespace benchmark
 
 #endif  // BENCHMARK_MACOS_AARCH64
