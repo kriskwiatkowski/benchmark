@@ -70,6 +70,8 @@ KPERF_LIST
 #define KPC_MASK (KPC_CLASS_CONFIGURABLE_MASK | KPC_CLASS_FIXED_MASK)
 static uint64_t g_counters[COUNTERS_COUNT];
 static uint64_t g_config[COUNTERS_COUNT];
+// Indicates if RDTSC was already configured
+static const g_rdtsc_initialized = false;
 
 /*
   Configure the counter. Such as clock cycles, etc.
@@ -92,10 +94,15 @@ static bool configure_macOS_rdtsc() {
     return false;
   }
 
+  g_rdtsc_initialized = true;
   return true;
 }
 
 bool init_macOS_rdtsc() {
+  if (g_rdtsc_initialized) {
+    return true;
+  }
+
   void *kperf = dlopen(
       "/System/Library/PrivateFrameworks/kperf.framework/Versions/A/kperf",
       RTLD_LAZY);
@@ -146,6 +153,11 @@ unsigned long long int macOS_rdtsc() {
     return 0;
   }
   return g_counters[0 + 2];
+}
+
+bool macOS_is_PMU_ON() {
+  return g_rdtsc_initialized &&
+         (!kpc_get_thread_counters(0, COUNTERS_COUNT, g_counters));
 }
 
 }  // namespace internal

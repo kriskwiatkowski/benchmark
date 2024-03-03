@@ -31,6 +31,11 @@ bool init_macOS_rdtsc();
  */
 unsigned long long int macOS_rdtsc();
 
+/*
+  Return true if PMU was configured, otherwise false.
+ */
+bool macOS_is_PMU_ON();
+
 }  // namespace internal
 }  // namespace benchmark
 #endif  // BENCHMARK_MACOS_AARCH64
