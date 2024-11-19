@@ -177,4 +177,4 @@ static_assert(
                  typename benchmark::State::StateIterator::value_type>::value,
     "");
 
-BENCHMARK_MAIN();
+BENCHMARK_MAIN()
